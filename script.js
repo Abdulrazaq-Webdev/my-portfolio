@@ -1,168 +1,170 @@
-// Wait for the DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scrolling for navigation links
-    const scrollLinks = document.querySelectorAll('a[href^="#"]');
-    
-    scrollLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 50,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-  
-    // Form validation and submission
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-      contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form values
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const subject = document.getElementById('subject').value.trim();
-        const message = document.getElementById('message').value.trim();
-        
-        // Simple validation
-        if (!name || !email || !subject || !message) {
-          alert('Please fill in all fields');
-          return;
-        }
-        
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          alert('Please enter a valid email address');
-          return;
-        }
-        
-        // Simulate form submission (replace with actual form submission)
-        const formData = {
-          name,
-          email,
-          subject,
-          message
-        };
-        
-        console.log('Form submitted:', formData);
-        
-        // Show success message
-        alert('Thank you for your message! I will get back to you soon.');
-        
-        // Reset form
-        contactForm.reset();
-      });
-    }
-  
-    // Add animation to project cards
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    // Animate project cards when they come into view
-    const observeProjects = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-    
-    projectCards.forEach(card => {
-      card.style.opacity = 0;
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observeProjects.observe(card);
-    });
-  
-    // Add typing effect to the hero heading
-    const heroHeading = document.querySelector('.hero h1');
-    if (heroHeading) {
-      const originalText = heroHeading.innerHTML;
-      const highlightSpan = heroHeading.querySelector('.highlight');
-      const highlightText = highlightSpan ? highlightSpan.textContent : '';
-      
-      // Only apply the effect if there's a highlight span
-      if (highlightSpan) {
-        // Replace the highlight span with a placeholder
-        heroHeading.innerHTML = originalText.replace(
-          `<span class="highlight">${highlightText}</span>`,
-          '<span class="highlight typing"></span>'
-        );
-        
-        const typingElement = heroHeading.querySelector('.typing');
-        let i = 0;
-        
-        // Typing effect
-        function typeWriter() {
-          if (i < highlightText.length) {
-            typingElement.textContent += highlightText.charAt(i);
-            i++;
-            setTimeout(typeWriter, 100);
-          }
-        }
-        
-        // Start typing after a short delay
-        setTimeout(typeWriter, 500);
-      }
-    }
-  
-    // Fix the submit button in the contact form (it has a typo in the HTML)
-    const submitButton = document.querySelector('.contact-form button[type="submit"]');
-    if (submitButton) {
-      submitButton.className = 'btn btn-filled';
-      submitButton.textContent = 'Send Message';
-    }
-  
-    // Add scroll-to-top button
-    const body = document.querySelector('body');
-    const scrollTopBtn = document.createElement('button');
-    scrollTopBtn.className = 'scroll-top-btn';
-    scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    scrollTopBtn.style.position = 'fixed';
-    scrollTopBtn.style.bottom = '20px';
-    scrollTopBtn.style.right = '20px';
-    scrollTopBtn.style.width = '45px';
-    scrollTopBtn.style.height = '45px';
-    scrollTopBtn.style.borderRadius = '50%';
-    scrollTopBtn.style.backgroundColor = 'var(--primary)';
-    scrollTopBtn.style.color = 'white';
-    scrollTopBtn.style.border = 'none';
-    scrollTopBtn.style.cursor = 'pointer';
-    scrollTopBtn.style.display = 'none';
-    scrollTopBtn.style.zIndex = '999';
-    scrollTopBtn.style.boxShadow = 'var(--shadow-md)';
-    
-    body.appendChild(scrollTopBtn);
-    
-    // Show/hide scroll-to-top button based on scroll position
-    window.addEventListener('scroll', function() {
-      if (window.pageYOffset > 300) {
-        scrollTopBtn.style.display = 'block';
+// Wait for DOM to load
+document.addEventListener("DOMContentLoaded", function () {
+  // Navigation
+  const burger = document.querySelector(".burger");
+  const nav = document.querySelector(".nav-links");
+  const navLinks = document.querySelectorAll(".nav-links li");
+  const header = document.querySelector("header");
+
+  // Toggle navigation
+  burger.addEventListener("click", () => {
+    nav.classList.toggle("active");
+
+    // Animate links
+    navLinks.forEach((link, index) => {
+      if (link.style.animation) {
+        link.style.animation = "";
       } else {
-        scrollTopBtn.style.display = 'none';
+        link.style.animation = `navLinkFade 0.5s ease forwards ${
+          index / 7 + 0.3
+        }s`;
       }
     });
-    
-    // Scroll to top when button is clicked
-    scrollTopBtn.addEventListener('click', function() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+
+    // Burger animation
+    burger.classList.toggle("toggle");
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (event) => {
+    if (nav.classList.contains("active") && !event.target.closest("nav")) {
+      nav.classList.remove("active");
+      burger.classList.remove("toggle");
+
+      navLinks.forEach((link) => {
+        link.style.animation = "";
+      });
+    }
+  });
+
+  // Header scroll effect
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 50) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
+
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const targetId = this.getAttribute("href");
+      const targetElement = document.querySelector(targetId);
+
+      if (targetElement) {
+        // Close mobile menu if open
+        if (nav.classList.contains("active")) {
+          nav.classList.remove("active");
+          burger.classList.remove("toggle");
+        }
+
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: "smooth",
+        });
+      }
+    });
+  });
+
+  // Project filtering
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const projectCards = document.querySelectorAll(".project-card");
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Remove active class from all buttons
+      filterBtns.forEach((btn) => btn.classList.remove("active"));
+
+      // Add active class to clicked button
+      btn.classList.add("active");
+
+      const filter = btn.getAttribute("data-filter");
+
+      projectCards.forEach((card) => {
+        if (filter === "all" || card.getAttribute("data-category") === filter) {
+          card.style.display = "block";
+          setTimeout(() => {
+            card.style.opacity = "1";
+            card.style.transform = "translateY(0)";
+          }, 100);
+        } else {
+          card.style.opacity = "0";
+          card.style.transform = "translateY(20px)";
+          setTimeout(() => {
+            card.style.display = "none";
+          }, 300);
+        }
       });
     });
-  
-    // Add Font Awesome icons (since they're referenced in the HTML)
-    const fontAwesomeLink = document.createElement('link');
-    fontAwesomeLink.rel = 'stylesheet';
-    fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-    document.head.appendChild(fontAwesomeLink);
   });
+
+  // Animate skill bars on scroll
+  const skillSection = document.querySelector(".skills");
+  const skillLevels = document.querySelectorAll(".skill-level");
+
+  // Set initial width to 0
+  skillLevels.forEach((level) => {
+    level.style.width = "0";
+  });
+
+  // Function to check if element is in viewport
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom >= 0
+    );
+  }
+
+  // Function to animate skill bars
+  function animateSkillBars() {
+    if (isInViewport(skillSection)) {
+      skillLevels.forEach((level) => {
+        const width = level.getAttribute("data-level");
+        level.style.width = width;
+      });
+      // Remove event listener once animation is triggered
+      window.removeEventListener("scroll", animateSkillBars);
+    }
+  }
+
+  // Add scroll event listener
+  window.addEventListener("scroll", animateSkillBars);
+  // Check on initial load
+  animateSkillBars();
+
+  // Form submission
+  const contactForm = document.getElementById("contactForm");
+
+  // Typing effect for code container
+  const codeElement = document.querySelector(".code-container code");
+  if (codeElement) {
+    const text = codeElement.innerHTML;
+    codeElement.innerHTML = "";
+
+    let i = 0;
+    const typeWriter = () => {
+      if (i < text.length) {
+        codeElement.innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 20);
+      }
+    };
+
+    // Start typing effect when element is in viewport
+    const startTypingWhenVisible = () => {
+      if (isInViewport(codeElement.parentElement)) {
+        typeWriter();
+        window.removeEventListener("scroll", startTypingWhenVisible);
+      }
+    };
+
+    window.addEventListener("scroll", startTypingWhenVisible);
+    // Check on initial load
+    startTypingWhenVisible();
+  }
+});
