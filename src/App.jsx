@@ -329,7 +329,7 @@ const Skills = () => {
 
   const tools = [
     { name: "VS Code", icon: "fas fa-code", category: "Editor" },
-    { name: "GitHub", icon: "fab fa-github", category: "Version Control" },
+    { name: "Git & GitHub", icon: "fab fa-github", category: "Version Control" },
     { name: "Terminal", icon: "fas fa-terminal", category: "CLI" },
     { name: "Chrome DevTools", icon: "fab fa-chrome", category: "Debug" },
     { name: "NPM", icon: "fab fa-npm", category: "Package Manager" },
