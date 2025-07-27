@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
+import mypics from "./assets/mypics.jpg"
+import myimage from "./assets/myimage.jpeg";
 
 // Loading Screen Component
 const LoadingScreen = ({ progress, text }) => (
@@ -231,8 +233,8 @@ console.log(developer.createMagic());`}
 // About Component
 const About = () => {
   const technologies = [
-    "HTML5 & CSS3",
-    "JavaScript (ES6+)",
+    "HTML & CSS",
+    "JavaScript",
     "React.js",
     "SQL Database",
     "Git & GitHub",
@@ -281,9 +283,7 @@ const About = () => {
           <div className="about-image">
             <div className="image-container">
               <div className="image-placeholder">
-                <div className="avatar-icon">
-                  <i className="fas fa-user-astronaut"></i>
-                </div>
+                <img src={myimage} alt="Abdulrazaq WebDev - Frontend Developer" className="profile-image" />
               </div>
               <div className="image-border"></div>
             </div>
@@ -398,7 +398,7 @@ const Projects = () => {
       title: "Portfolio Website",
       description:
         "A modern, responsive portfolio website built with React and featuring dark theme with neon accents.",
-      tech: ["React", "Vite", "CSS3", "JavaScript"],
+      tech: ["React", "Vite", "CSS3", "JavaScript", "Email js"],
       category: "web",
       github: "https://github.com/Abdulrazaq-Webdev",
       live: "#",
@@ -441,7 +441,7 @@ const Projects = () => {
 
   const filters = [
     { id: "all", label: "All Projects" },
-    { id: "web", label: "Web Apps" },
+    // { id: "web", label: "Web Apps" },
     // { id: "app", label: "Mobile Apps" },
     // { id: "ui", label: "UI/UX" },
   ];
@@ -595,9 +595,13 @@ const Contact = () => {
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+
+   const phoneRegex = /^(\+?[1-9]\d{7,14}|0\d{9,14})$/;
+
+
+    if (!emailRegex.test(email) && !phoneRegex.test(email)) {
       setMessage({
-        text: "Please enter a valid email address.",
+        text: "Please enter a valid email address or phone number.",
         type: "error",
       });
       setIsLoading(false);
@@ -815,7 +819,7 @@ const Contact = () => {
                     id="user_email"
                     name="user_email"
                     required
-                    placeholder="Email or Phone number"
+                    placeholder="Email"
                     disabled={isLoading}
                   />
                 </div>
