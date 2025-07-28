@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import emailjs from "@emailjs/browser";
-import mypics from "./assets/mypics.jpg"
+import mypics from "./assets/mypics.jpg";
 import myimage from "./assets/myimage.jpeg";
 
 // Loading Screen Component
@@ -283,7 +283,11 @@ const About = () => {
           <div className="about-image">
             <div className="image-container">
               <div className="image-placeholder">
-                <img src={myimage} alt="Abdulrazaq WebDev - Frontend Developer" className="profile-image" />
+                <img
+                  src={myimage}
+                  alt="Abdulrazaq WebDev - Frontend Developer"
+                  className="profile-image"
+                />
               </div>
               <div className="image-border"></div>
             </div>
@@ -319,17 +323,21 @@ const Skills = () => {
   }, []);
 
   const skills = [
-    { name: "HTML5", level: 90, color: "var(--neon-orange)" },
-    { name: "CSS3", level: 85, color: "var(--neon-cyan)" },
+    { name: "HTML", level: 95, color: "var(--neon-orange)" },
+    { name: "CSS", level: 85, color: "var(--neon-cyan)" },
     { name: "JavaScript", level: 80, color: "var(--neon-yellow)" },
     { name: "React", level: 75, color: "var(--neon-cyan)" },
-    { name: "SQL Database", level: 70, color: "var(--neon-green)" },
+    { name: "SQL Database", level: 90, color: "var(--neon-green)" },
     { name: "Git", level: 85, color: "var(--neon-pink)" },
   ];
 
   const tools = [
     { name: "VS Code", icon: "fas fa-code", category: "Editor" },
-    { name: "Git & GitHub", icon: "fab fa-github", category: "Version Control" },
+    {
+      name: "Git & GitHub",
+      icon: "fab fa-github",
+      category: "Version Control",
+    },
     { name: "Terminal", icon: "fas fa-terminal", category: "CLI" },
     { name: "Chrome DevTools", icon: "fab fa-chrome", category: "Debug" },
     { name: "NPM", icon: "fab fa-npm", category: "Package Manager" },
@@ -595,9 +603,8 @@ const Contact = () => {
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-   const phoneRegex = /^(\+?[1-9]\d{7,14}|0\d{9,14})$/;
-
+    // Accepts: +2348123456789, 2348123456789, 08123456789, 8123456789, etc.
+    const phoneRegex = /^(\+?\d{10,15}|0\d{9,14})$/;
 
     if (!emailRegex.test(email) && !phoneRegex.test(email)) {
       setMessage({
@@ -815,11 +822,11 @@ const Contact = () => {
                 <div className="form-group">
                   <label htmlFor="user_email">Contact Info</label>
                   <input
-                    type="email"
+                    type="text" // <-- changed from "email" to "text"
                     id="user_email"
                     name="user_email"
                     required
-                    placeholder="Email"
+                    placeholder="Email or Phone Number"
                     disabled={isLoading}
                   />
                 </div>
@@ -859,7 +866,7 @@ const Contact = () => {
                       <i className="fas fa-paper-plane"></i>
                       <span>Send Message</span>
                     </>
-                  )} 
+                  )}
                 </button>
               </div>
             </form>
@@ -916,7 +923,9 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-brand">
             <div className="footer-logo">
-              <span className="logo-bracket" mx-auto>{"<"}</span>
+              <span className="logo-bracket" mx-auto>
+                {"<"}
+              </span>
               AbdulrazaqDev
               <span className="logo-bracket">{"/>"}</span>
             </div>
